@@ -2,6 +2,8 @@ import requests
 import re
 from bs4 import BeautifulSoup as bs4
 
+# parses home page to find max amount of pages
+
 
 def findPages():
     url = "https://jobs.apple.com/en-us/search?location=united-states-USA&team=acoustic-technologies-HRDWR-ACT%20analog-and-digital-design-HRDWR-ADD%20architecture-HRDWR-ARCH%20battery-engineering-HRDWR-BE%20camera-technologies-HRDWR-CAM%20display-technologies-HRDWR-DISP%20engineering-project-management-HRDWR-EPM%20environmental-technologies-HRDWR-ENVT%20health-technology-HRDWR-HT%20machine-learning-and-ai-HRDWR-MCHLN%20mechanical-engineering-HRDWR-ME%20process-engineering-HRDWR-PE%20reliability-engineering-HRDWR-REL%20sensor-technologies-HRDWR-SENT%20silicon-technologies-HRDWR-SILT%20system-design-and-test-engineering-HRDWR-SDE%20wireless-hardware-HRDWR-WT%20quality-engineering-OPMFG-QE%20apps-and-frameworks-SFTWR-AF%20cloud-and-infrastructure-SFTWR-CLD%20core-operating-systems-SFTWR-COS%20devops-and-site-reliability-SFTWR-DSR%20engineering-project-management-SFTWR-EPM%20information-systems-and-technology-SFTWR-ISTECH%20machine-learning-and-ai-SFTWR-MCHLN%20security-and-privacy-SFTWR-SEC%20software-quality-automation-and-tools-SFTWR-SQAT%20wireless-software-SFTWR-WSFT%20machine-learning-infrastructure-MLAI-MLI%20deep-learning-and-reinforcement-learning-MLAI-DLRL%20natural-language-processing-and-speech-technologies-MLAI-NLP%20computer-vision-MLAI-CV%20applied-research-MLAI-AR&sort=locationAsc"
@@ -14,6 +16,8 @@ def findPages():
 
     pagesElement = soup.find_all("span", class_="pageNumber")
     return (int(pagesElement[1].get_text())+1)
+
+# iterates through each page and downloads file. You can parse each page as you iterate, but I'm saving them so that I can test different queries without having to access each page every time.
 
 
 def mainDownloader(maxPages):
@@ -31,6 +35,7 @@ def mainDownloader(maxPages):
             file.write(response.text)
 
 
+# finds all job ids in master file(allPages.html) and saves them to a .txt file without duplicates
 def findJobIDs():
     path = './allPages.html'
     pattern = "/+\d+/"
@@ -54,7 +59,7 @@ def findJobIDs():
 
 
 def main():
-    mainDownloader(findPages())
+    # mainDownloader(findPages())
     findJobIDs()
 
 
