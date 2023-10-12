@@ -1,7 +1,9 @@
 #include <iostream>
 using namespace std;
 
-int main() {
+int a=20;
+
+int input() {
   int age;
   string name;
   cout << "enter name and age"<<endl;
